@@ -1,15 +1,16 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { Component } from 'react'
+// import logo from './logo.svg'
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import './App.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
 // import Movies component here
-import Movies from './Components/Movies';
-import NewMovie from './Components/NewMovie.js';
-import MovieList from './Components/MovieList.js';
-import EditMovie from './Components/EditMovie.js';
-import Footer from './Components/Footer';
-import Header from './Components/Header';
+import Movie from './Components/Movie'
+import NewMovie from './Components/NewMovie.js'
+import MovieList from './Components/MovieList.js'
+import EditMovie from './Components/EditMovie.js'
+import Footer from './Components/Footer'
+import Header from './Components/Header'
+import movieData from './Components/movieData'
 
 class App extends Component {
 
@@ -27,36 +28,51 @@ class App extends Component {
       show: false,
       edit: false,
       id: null,
-      startData: [{
-        id: '1',
-        movie_title: 'Rambo',
-        genre:'Action',
-        rating:'4',
-        explicit: false
-      }, {
-        id: '2',
-        movie_title: 'Running man',
-        genre:'Action',
-        rating:'4',
-        explicit: false
-      }, {
-        id: '3',
-        movie_title: '9 and a half weeks',
-        genre:'Romance',
-        rating:'4',
-        explicit: true
-      }, {
-        id: '4',
-        movie_title: 'Superman III',
-        genre:'SF',
-        rating:'3',
-        explicit: false
-      }]
+      movieList: movieData.map((movie) => {
+        return {
+          ...movie,
+          edit: false
+        }
+      }) 
     }
+    this.onEditMovie = this.onEditMovie.bind(this)
+    
+  }
+
+  onEditMovie(id) {
+    console.log("Edit movie",id)
+    this.setState(prevState => {
+      const editMovieList = prevState.movieList.map((movie) => {
+          if(movie.id===id) {
+            movie.edit=true
+            console.log("Editiram ",movie.movie_title)
+          } else {
+            movie.edit=false
+          }
+        
+            return movie
+        
+      })
+      return {
+        movieList: editMovieList
+      }
+    })
   }
 
 
   render() {
+  // let movieListE = this.state.movieList.map((movie) => {
+  //   return {
+  //     ...movie,
+  //     edit: false
+  //   }
+  // })  
+  const movieList = this.state.movieList.map((movie) => {
+      return (
+        <Movie key={movie.id} edit={movie.edit} id={movie.id} movie_title={movie.movie_title} genre={movie.genre} rating={movie.rating} explicit={movie.explicit} onEditMovie={this.onEditMovie} />
+      )
+    })
+
     return (
       <Router>
         <Header />
@@ -83,6 +99,7 @@ class App extends Component {
               <Route path='/movie-list' component={ MovieList } />
           </Switch>
         {/* <Movies movies={this.state.startData} /> */}
+        {movieList}
       </div>
       <Footer />
       </Router>
