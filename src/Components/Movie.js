@@ -1,5 +1,22 @@
 import React, { Component } from 'react';
 
+// get our fontawesome imports
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faEdit, faTrashAlt} from "@fortawesome/free-regular-svg-icons";
+// import { faHome } from "@fortawesome/free-regular-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
+
+// const element = <FontAwesomeIcon icon={faCoffee} />
+
+library.add(
+faEdit,
+faTrashAlt
+)
+
+
+
 class Movie extends Component {     
     // constructor(props) {
     //     super(props);
@@ -24,7 +41,14 @@ class Movie extends Component {
     render() {
         let editButon=""
             if (this.props.edit) {
-                editButon=<button type="submit" value="Submit">Edit Movie</button>
+                // editButon=<button className="btn-edit" type="submit" value="Submit">Edit Movie</button><button className="btn-delete" type="submit" value="Submit">Delete Movie</button>
+                editButon=<span><a className="btn-edit" href=""><FontAwesomeIcon icon={faEdit}
+                fixedWidth
+                size="1x" inverse
+/></a><a className="btn-delete" href=""><FontAwesomeIcon icon={faTrashAlt}
+                fixedWidth
+                size="1x" inverse
+/></a></span>
             }
 
         return( <p className="movie" onClick={() => {
@@ -32,7 +56,7 @@ class Movie extends Component {
             console.log("clicked "+this.props.movie_title)
             this.props.onEditMovie(this.props.id)
             }}>
-            {this.props.movie_title} - 
+            {this.props.movie_title} 
             { editButon }
             </p>
         //     {/* <ul>

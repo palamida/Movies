@@ -12,6 +12,7 @@ import Footer from './Components/Footer'
 import Header from './Components/Header'
 import movieData from './Components/movieData'
 
+
 class App extends Component {
 
   // constructor(props) {
@@ -76,6 +77,7 @@ class App extends Component {
     return (
       <Router>
         <Header />
+        
       <div className="container">
                   <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <Link to={'/'} className="navbar-brand">Movie database CRUD</Link>
@@ -94,6 +96,8 @@ class App extends Component {
             </div>
           </nav> <br/>
           <Switch>
+          {/* <FontAwesomeIcon icon={['far', 'fa-trash-alt']} /> */}
+       
               <Route exact path='/add-movie' component={ NewMovie } />
               <Route path='/edit/:id' component={ EditMovie } />
               <Route path='/movie-list' component={ MovieList } />
