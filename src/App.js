@@ -86,11 +86,11 @@ class App extends Component {
   //     edit: false
   //   }
   // })  
-  const movieList = this.state.movieList.map((movie) => {
-      return (
-        <Movie key={movie.id} edit={movie.edit} id={movie.id} movie_title={movie.movie_title} genre={movie.genre} rating={movie.rating} explicit={movie.explicit} onSetEditableMovie={this.onSetEditableMovie} onEditMovie={this.onEditMovie}/>
-      )
-    })
+  // const movieList = this.state.movieList.map((movie) => {
+  //     return (
+  //       <Movie key={movie.id} edit={movie.edit} id={movie.id} movie_title={movie.movie_title} genre={movie.genre} rating={movie.rating} explicit={movie.explicit} onSetEditableMovie={this.onSetEditableMovie} onEditMovie={this.onEditMovie}/>
+  //     )
+  //   })
 
     return (
       <Router>
@@ -108,7 +108,7 @@ class App extends Component {
                   <Link to={'/add-movie'} className="nav-link">Create new Movie</Link>
                 </li>
                 <li className="nav-item">
-                  <Link to={'/movie-list'} className="nav-link">Movie List</Link>
+                  <Link to={'/movies'} className="nav-link">Movie List</Link>
                 </li>
               </ul>
             </div>
@@ -118,10 +118,11 @@ class App extends Component {
        
               <Route exact path='/add-movie' component={ NewMovie } />
               <Route path='/edit/:id' component={ EditMovie } />
-              <Route path='/movie-list' component={ MovieList } />
+              {/* <Route path='/movie-list' component={ MovieList } /> */}
+              <Route path='/movies' render={() => (<MovieList movieList={this.state.movieList}/>)}/>
           </Switch>
         {/* <Movies movies={this.state.startData} /> */}
-        {movieList}
+        {/* {movieList} */}
       </div>
       <Footer />
       </Router>
