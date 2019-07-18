@@ -42,19 +42,16 @@ class Movie extends Component {
         let editButon=""
             if (this.props.edit) {
                 // editButon=<button className="btn-edit" type="submit" value="Submit">Edit Movie</button><button className="btn-delete" type="submit" value="Submit">Delete Movie</button>
-                editButon=<span><a className="btn-edit" href=""><FontAwesomeIcon icon={faEdit}
-                fixedWidth
-                size="1x" inverse
-/></a><a className="btn-delete" href=""><FontAwesomeIcon icon={faTrashAlt}
-                fixedWidth
-                size="1x" inverse
-/></a></span>
+                editButon=<span>
+                    <a className="btn-edit" href={'edit/'+this.props.id}><FontAwesomeIcon icon={faEdit} fixedWidth size="1x" inverse/></a>
+                    <a className="btn-delete" href=""><FontAwesomeIcon icon={faTrashAlt} fixedWidth size="1x" inverse/></a>
+                </span>
             }
 
         return( <p className="movie" onClick={() => {
            
             console.log("clicked "+this.props.movie_title)
-            this.props.onEditMovie(this.props.id)
+            this.props.onSetEditableMovie(this.props.id)
             }}>
             {this.props.movie_title} 
             { editButon }

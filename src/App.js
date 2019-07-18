@@ -36,17 +36,18 @@ class App extends Component {
         }
       }) 
     }
+    this.onSetEditableMovie = this.onSetEditableMovie.bind(this)
     this.onEditMovie = this.onEditMovie.bind(this)
     
   }
 
-  onEditMovie(id) {
-    console.log("Edit movie",id)
+  onSetEditableMovie(id) {
+    console.log("Set Editable movie",id)
     this.setState(prevState => {
-      const editMovieList = prevState.movieList.map((movie) => {
+      const editableMovieList = prevState.movieList.map((movie) => {
           if(movie.id===id) {
             movie.edit=true
-            console.log("Editiram ",movie.movie_title)
+            console.log("Postavljam editabilni ",movie.movie_title)
           } else {
             movie.edit=false
           }
@@ -55,11 +56,28 @@ class App extends Component {
         
       })
       return {
-        movieList: editMovieList
+        movieList: editableMovieList
       }
     })
   }
 
+
+  onEditMovie(id) {
+    console.log("Edit movie",id)
+    this.setState(prevState => {
+      const editMovieList = prevState.movieList.map((movie) => {
+          if(movie.id===id) {
+            
+            console.log("Editiram ",movie.movie_title)
+          }        
+            return movie
+        
+      })
+      return {
+        movieList: editMovieList
+      }
+    })
+  }
 
   render() {
   // let movieListE = this.state.movieList.map((movie) => {
@@ -70,7 +88,7 @@ class App extends Component {
   // })  
   const movieList = this.state.movieList.map((movie) => {
       return (
-        <Movie key={movie.id} edit={movie.edit} id={movie.id} movie_title={movie.movie_title} genre={movie.genre} rating={movie.rating} explicit={movie.explicit} onEditMovie={this.onEditMovie} />
+        <Movie key={movie.id} edit={movie.edit} id={movie.id} movie_title={movie.movie_title} genre={movie.genre} rating={movie.rating} explicit={movie.explicit} onSetEditableMovie={this.onSetEditableMovie} onEditMovie={this.onEditMovie}/>
       )
     })
 
