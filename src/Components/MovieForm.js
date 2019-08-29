@@ -22,7 +22,15 @@ export default function MovieForm(props){
     //   explicitlabel:'non explicit'
     // });
 
-    const { values, handleChange, handleSubmit } = useForm({movie_title:props.movie_title , genre:props.genre}, login);
+    const { values, handleChange, handleSubmit, checkboxChange } = useForm({
+        movie_title: props.movie_title, 
+        genre: props.genre, 
+        rating: props.rating,
+        isChecked: props.explicit,
+        checked: '',
+        explicitlabel:'non explicit'
+        }, 
+        login);
 
     function login() {
       console.log(values);
@@ -90,24 +98,26 @@ export default function MovieForm(props){
                           className="form-control" 
                           value={values.movie_title}
                           onChange={handleChange}
-                          // {...movie.movie_title}
                     
                       />
                   </div>
-                  {/* <div className="form-group">
+                 <div className="form-group">
                       <label>Genre: </label>
                       <input 
                           type="text" 
                           name="genre"
                           className="form-control" 
-                          value={this.state.edit_movie.genre}
-                        //   onChange={this.onChangeGenre}
-                        onChange={this.handleChange}
+                          value={values.genre}
+                        onChange={handleChange}
                       />
                   </div>
                   <div className="form-group">
                       <label>Rating: </label>
-                     <Rating {...this.props} initialRating={this.state.edit_movie.rating} onChange={this.onChangeRating} />
+                     <Rating 
+                    //  {...this.props}
+                      initialRating={values.rating} 
+                    //  onChange={this.onChangeRating} 
+                     />
   
                      
                   </div>
@@ -115,11 +125,12 @@ export default function MovieForm(props){
                       <label>Explicit: </label>
                       <input
                           type="checkbox"
-                          value={this.state.edit_movie.isChecked}
-                          checked={this.state.edit_movie.isChecked}
-                          onChange={this.onChangeExplicit}
+                          name="isChecked"
+                          value={values.isChecked}
+                        //   checked={values.checked}
+                          onChange={checkboxChange}
                       />
-                  </div> */  }            
+                  </div>            
                   <div className="form-group">
                       <input type="submit" value="Submit movie" className="btn btn-primary"/>
                   </div> 
