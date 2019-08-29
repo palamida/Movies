@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 // get our fontawesome imports
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -42,20 +43,32 @@ class Movie extends Component {
         let editButon=""
             if (this.props.edit) {
                 // editButon=<button className="btn-edit" type="submit" value="Submit">Edit Movie</button><button className="btn-delete" type="submit" value="Submit">Delete Movie</button>
-                editButon=<span>
-                    <a className="btn-edit" href={'edit/'+this.props.id}><FontAwesomeIcon icon={faEdit} fixedWidth size="1x" inverse/></a>
-                    <a className="btn-delete" href=""><FontAwesomeIcon icon={faTrashAlt} fixedWidth size="1x" inverse/></a>
-                </span>
+                editButon=<section className="ui-butoni">
+
+                    {/* <a className="btn-edit" href={'/edit/'+this.props.id} ><FontAwesomeIcon icon={faEdit} fixedWidth size="1x" inverse/></a> */}
+                    {/* <span className="btn-edit" onClick={() => {
+           
+           console.log("clicked "+this.props.movie_title)
+           this.props.onEditMovie(this.props.id)
+           }}>
+               <FontAwesomeIcon icon={faEdit} fixedWidth size="1x" inverse/></span> */}
+<Link to={`/edit/`+this.props.id}><span className="btn-edit"><FontAwesomeIcon icon={faEdit} fixedWidth size="1x" inverse/></span></Link>
+
+                    <span className="btn-delete"><FontAwesomeIcon icon={faTrashAlt} fixedWidth size="1x" inverse/></span>
+                </section>
             }
 
-        return( <p className="movie" onClick={() => {
+        return( <article className="movie">
+                <p onClick={() => {      
+           console.log("clicked "+this.props.movie_title)
+           this.props.onSetEditableMovie(this.props.id)
+           }}>
+           {this.props.movie_title} 
            
-            console.log("clicked "+this.props.movie_title)
-            this.props.onSetEditableMovie(this.props.id)
-            }}>
-            {this.props.movie_title} 
-            { editButon }
-            </p>
+           </p>
+          { console.log("History:", this.props.location) } 
+{ editButon }
+        </article> 
         //     {/* <ul>
         //       {this.state.movie_list.map(item => (
         //         <li key={item.id} className={ item.done ? 'done' : 'hidden' }>

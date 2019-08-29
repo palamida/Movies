@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 // import Movies component here
-import Movie from './Components/Movie'
+// import Movie from './Components/Movie'
 import NewMovie from './Components/NewMovie.js'
 import MovieList from './Components/MovieList.js'
 import EditMovie from './Components/EditMovie.js'
@@ -29,6 +29,7 @@ class App extends Component {
       show: false,
       edit: false,
       id: null,
+      editMovie: null,
       movieList: movieData.map((movie) => {
         return {
           ...movie,
@@ -36,48 +37,69 @@ class App extends Component {
         }
       }) 
     }
-    this.onSetEditableMovie = this.onSetEditableMovie.bind(this)
-    this.onEditMovie = this.onEditMovie.bind(this)
+    // this.onSetEditableMovie = this.onSetEditableMovie.bind(this)
+    // this.onEditMovie = this.onEditMovie.bind(this)
+    this.editMovie = this.editMovie.bind(this)
+    this.updateMovieList = this.updateMovieList.bind(this)
     
   }
 
-  onSetEditableMovie(id) {
-    console.log("Set Editable movie",id)
+  updateMovieList(id) {
+console.log("Update movie list - id=",id)
+this.setState(prevState => {
+  const editableMovieList = prevState.movieList.map((movie) => {
+      if(movie.id===id) {
+        movie.edit=true
+        console.log("Postavljam editabilni ",movie.movie_title)
+      } else {
+        movie.edit=false
+      }  
+        return movie   
+  })
+  return {
+    movieList: editableMovieList
+  }
+})
+  }
+
+
+editMovie(id) {
+    console.log("Movie Id koji se editira=",id)
+    const editMovieId=id
+    console.log("Movie Id koji se editira=",editMovieId)
+
     this.setState(prevState => {
       const editableMovieList = prevState.movieList.map((movie) => {
           if(movie.id===id) {
             movie.edit=true
-            console.log("Postavljam editabilni ",movie.movie_title)
+            console.log("Otvaram za editiranje ",movie.movie_title)
           } else {
             movie.edit=false
-          }
-        
-            return movie
-        
+          }  
+            return movie   
       })
       return {
         movieList: editableMovieList
       }
     })
-  }
-
-
-  onEditMovie(id) {
-    console.log("Edit movie",id)
-    this.setState(prevState => {
-      const editMovieList = prevState.movieList.map((movie) => {
-          if(movie.id===id) {
-            
-            console.log("Editiram ",movie.movie_title)
-          }        
-            return movie
+    // history.push('/edit/:id');
+    // console.log("History=",this.history)
+    // this.setState(prevState => {
+    //   const editMovieList = prevState.movieList.map((movie) => {
+    //         return movie
+    //   })
+    //   console.log("Lista kod klika na edit:",editMovieList)
+    //   return {
         
-      })
-      return {
-        movieList: editMovieList
-      }
-    })
+    //     movieList: editMovieList
+    //   }
+    // })
+
+    // return <Redirect to='/edit/' />
+    // <Route path='/edit/:id' render={() => (<EditMovie movieList={this.state.movieList}/>)}/>
+    // <Route path={`${match.path}/edit/:id`} component={EditMovie} />
   }
+
 
   render() {
   // let movieListE = this.state.movieList.map((movie) => {
@@ -86,11 +108,11 @@ class App extends Component {
   //     edit: false
   //   }
   // })  
-  const movieList = this.state.movieList.map((movie) => {
-      return (
-        <Movie key={movie.id} edit={movie.edit} id={movie.id} movie_title={movie.movie_title} genre={movie.genre} rating={movie.rating} explicit={movie.explicit} onSetEditableMovie={this.onSetEditableMovie} onEditMovie={this.onEditMovie}/>
-      )
-    })
+  // const movieList = this.state.movieList.map((movie) => {
+  //     return (
+  //       <Movie key={movie.id} edit={movie.edit} id={movie.id} movie_title={movie.movie_title} genre={movie.genre} rating={movie.rating} explicit={movie.explicit} onSetEditableMovie={this.onSetEditableMovie} onEditMovie={this.onEditMovie}/>
+  //     )
+  //   })
 
     return (
       <Router>
@@ -108,7 +130,7 @@ class App extends Component {
                   <Link to={'/add-movie'} className="nav-link">Create new Movie</Link>
                 </li>
                 <li className="nav-item">
-                  <Link to={'/movie-list'} className="nav-link">Movie List</Link>
+                  <Link to={'/movies'} className="nav-link">Movie List</Link>
                 </li>
               </ul>
             </div>
@@ -117,11 +139,14 @@ class App extends Component {
           {/* <FontAwesomeIcon icon={['far', 'fa-trash-alt']} /> */}
        
               <Route exact path='/add-movie' component={ NewMovie } />
-              <Route path='/edit/:id' component={ EditMovie } />
-              <Route path='/movie-list' component={ MovieList } />
+              {/* <Route path='/edit/:id' component={ EditMovie } /> */}
+              <Route path='/edit/:id' render={() => (<EditMovie movieList={this.state.movieList}/>)}/>
+              {/* <Route path='/edit/:id' component={EditMovie} />; */}
+              {/* <Route path='/movie-list' component={ MovieList } /> */}
+              <Route path='/movies' render={() => (<MovieList movieList={this.state.movieList} updateMovieList={this.updateMovieList} editMovie={this.editMovie}/>)}/>
           </Switch>
         {/* <Movies movies={this.state.startData} /> */}
-        {movieList}
+        {/* {movieList} */}
       </div>
       <Footer />
       </Router>
